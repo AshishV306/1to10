@@ -1,0 +1,70 @@
+get_ipython().system('pip list')
+pip install nltk
+
+import nltk
+nltk.download('punkt')
+
+from nltk import tokenize
+from nltk.tokenize import sent_tokenize
+text = "Good day everyone,How are you all today?Its fun learning data analysis. Hope you all are practicing well."
+text
+
+tokenized_text = sent_tokenize(text)
+print(tokenized_text)
+
+from nltk.tokenize import word_tokenize
+tokenized_word = word_tokenize(text)
+print(tokenized_word)
+
+from nltk.probability import FreqDist
+fdist = FreqDist(tokenized_word)
+print(fdist)
+
+fdist.most_common(4)
+
+import matplotlib.pyplot as plt
+fdist.plot(30,cumulative = False)
+plt.show()
+
+nltk.download('stopwords')
+from nltk.corpus import stopwords 
+stop_words = set(stopwords.words("english"))
+print(stop_words)
+
+filtered_sent = []
+for w in tokenized_word:
+    if w not in stop_words:
+        filtered_sent.append(w)
+print("Tokenized_sentence: ",tokenized_word)
+print("Filtered_sentence: ",filtered_sent)
+
+from nltk.stem import PorterStemmer
+from nltk.tokenize import sent_tokenize,word_tokenize
+ps = PorterStemmer()
+stemmed_words = []
+for w in filtered_sent:
+    stemmed_words.append(ps.stem(w))
+print("Filtered Sentence: ",filtered_sent)
+print("Stemmed Sentence: ",stemmed_words)
+
+nltk.download('wordnet')
+from nltk.stem.wordnet import WordNetLemmatizer
+lem = WordNetLemmatizer()
+from nltk.stem import PorterStemmer
+stem = PorterStemmer()
+word = "flying"
+
+print("Lemmatized word: ",lem.lemmatize(word,"v"))
+print("Stemmed Word: ",stem.stem(word))
+
+nltk.download('omw-1.4')
+
+sent = "Albert Einstein was born in Ulm,Germany in 1879."
+tokens = word_tokenize(sent)
+print(tokens)
+
+nltk.download('averaged_perceptron_tagger')
+nltk.pos_tag(tokens)
+
+
+
