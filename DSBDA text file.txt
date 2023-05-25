@@ -1,0 +1,225 @@
+assignment-1 Data Wrangling
+----------------------------
+df=pd.read_csv("train.csv")
+df
+df.shape //data preprocessing
+df.size
+df.columns
+df.isnull().sum()
+df.describe()
+df.info()
+df.dtypes
+df['age']=df['age'].astype('int64')
+
+df['cabin']=df['cabin'].replace(to_replace=np.nan, value='unknown') 
+df['age']=df['age'].interpolate() //data formatting and data normalization
+df['age']=df['age'].fillna(method='ffill')
+
+quantitative_data=pd.get_dummies(df.Embarked) //turning categorical variable into quantitive
+df=df.join(quantitative_data)
+df.drop(['Embarked'], axis=1, inplace=True)
+
+----------------------------
+assignment-2 Data Wrangling
+----------------------------
+//Outliers
+df(df['placement_score'] > 75 & df['placement_score'] <= 85)
+
+
+-----------------------------------------------------
+assignment-3 Measures of Central tendency (iris.csv)
+-----------------------------------------------------
+np.mean(df['sepal_length'])
+np.std(df['sepal_length'])
+np.min(df['sepal_length'])
+np.max(df['sepal_length'])
+np.mean(df)
+np.std(df)
+np.min(df)
+np.max(df)
+df.quantile(0.25)
+df.groupby('species').mean()
+df.groupby('species').median()
+
+------------------------------
+assignment-4 Data Analytics-1
+------------------------------
+from sklearn.datasets import load_boston
+
+boston = load_boston()
+
+df_x = pd.DataFrame(boston.data, columns=boston.feature_names)
+df_y = pd.DataFrame(boston.data, boston.target)
+
+sns.heatmap(df_x)
+
+from sklearn.model_selection import train_test_split 
+from sklearn.linear_model import LinearRegression
+ 
+x_train, x_test, y_train, y_test= train_test_split(df_x, df_y, test_size = 0.4)
+
+model=LinearRegression()
+model.fit(x_train,y_train)
+pre =model.predict(x_test)
+pre
+
+from sklearn.metrics import mean_squared_error
+print(mean_squared_error(y_test, pre))
+
+----------------------------
+assignment-5 Data Analytics
+----------------------------
+x=df.iloc[:,[2,3]] 
+x
+// The iloc method is used to select rows and columns by position. The : in the first argument indicates that all rows should be selected. The [2,3] in the second argument indicates that the second and third columns should be selected.
+
+y=df.iloc[:,4] 
+y
+
+from sklearn.model_selection import train_test_split 
+from sklearn.linear_model import LogisticRegression
+
+x_train, x_test, y_train, y_test= train_test_split(x, y, test_size = 0.25)
+
+from sklearn.preprocessing import StandardScaler                             
+sc_X= StandardScaler()
+
+x_train= sc_X.fit_transform(x_train)                                                   x_test =sc_X.fit_transform(x_test)
+
+model= LogisticRegression (random_state=0) 
+model.fit(x_train, y_train)
+pre =model.predict(x_test)
+
+
+from sklearn.metrics import confusion_matrix                                                    cm= confusion_matrix(y_test,pre)
+
+TP= cm[0,[0]]
+TP
+
+TN= cm[0,[1]]
+TN
+
+FP= cm[1,[0]]
+FP
+
+FN= cm[1,[1]]
+FN
+
+accuracy=(tp+tn)/(tp+tn+fp+fn)
+
+error_rate=(fp+fn)/(tp+tn+fp+fn)
+
+precision=tp/(tp+fp)
+
+Recall=tp/(tp+fn)
+
+specificity=tn/(tn+fp)
+
+--------------------------------
+assignment-6 Data Analytics-3
+--------------------------------
+
+x=df.iloc[:,[0,1,2,3]] 
+x
+
+x=df.iloc[:,[0,1,2,3]] 
+x
+
+from sklearn.preprocessing import LabelEncoder
+le=LabelEncoder()
+y=le.fit_transform(y)
+y
+
+from sklearn.model_selection import train_test_split 
+from sklearn.naive_bayes import GaussianNB  //imported gauss naive bayers
+
+x_train, x_test, y_train, y_test= train_test_split(x, y, test_size = 0.25)
+
+from sklearn.preprocessing import StandardScaler                             
+sc_X= StandardScaler()
+
+x_train= sc_X.fit_transform(x_train)                                                   x_test =sc_X.fit_transform(x_test)
+
+model= GaussianNB() 
+model.fit(x_train, y_train)
+pre =model.predict(x_test)
+
+
+from sklearn.metrics import confusion_matrix                                                    cm= confusion_matrix(y_test,pre)
+
+TP= cm[0,[0]]
+TP
+
+TN= cm[0,[1]]
+TN
+
+FP= cm[1,[0]]
+FP
+
+FN= cm[1,[1]]
+FN
+
+accuracy=(tp+tn)/(tp+tn+fp+fn)
+
+error_rate=(fp+fn)/(tp+tn+fp+fn)
+
+precision=tp/(tp+fp)
+
+Recall=tp/(tp+fn)
+
+specificity=tn/(tn+fp)
+
+---------------------------------
+assignment-8 Data Visualization
+---------------------------------
+
+sns.displot(df['Pclass'])
+sns.displot(df['Age'])
+sns.displot(df['Age'],bins=40)
+
+sns.jointplot(x=df['Age'], y=df['Fare'], kind="scatter")
+sns.jointplot(x=df['Age'], y=df['Fare'], kind="hex")
+
+sns.pairplot(df)
+
+sns.barplot(x=df['Age'], y=df['Fare'])
+
+sns.countplot(df['Pclass'])
+
+sns.histplot(df['Fare'])
+
+
+---------------------------------
+assignment-9 Data Visualization-2
+---------------------------------
+sns.countplot(df['Sex'])
+sns.countplot(df['Survived'])
+
+sns.barplot(df['Survived'],df['Age'])
+
+sns.boxplot(df["Age"], df["Sex"])
+sns.boxplot(df["Age"], df["Sex"], df["Survived"])
+
+pd.crosstab(df["Sex"], df["Survived"])
+sns.heatmap(pd.crosstab(df["Sex"], df["Survived"]))
+
+df['Sex'].value_counts().plot(kind='pie', autopct='%.2f)
+
+---------------------------------
+assignment-10 Data Visualization-3
+---------------------------------
+
+sns.displot(df['Sepal_Length'], hist=True)
+
+sns.boxplot(df['Sepal_Length'])
+
+sns.boxplot(df['species'], df['Sepal_Length'])
+
+plt.hist(df['Sepal_Length'])
+
+
+
+
+
+
+
